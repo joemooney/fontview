@@ -220,27 +220,33 @@ impl FontViewerApp {
         ui.horizontal_wrapped(|ui| {
             ui.label("Jump to:");
             let blocks = [
-                ("Basic Latin", 0x0020),
-                ("Latin-1", 0x0080),
-                ("Latin Extended-A", 0x0100),
-                ("Latin Extended-B", 0x0180),
-                ("Greek", 0x0370),
-                ("Cyrillic", 0x0400),
-                ("Hebrew", 0x0590),
-                ("Arabic", 0x0600),
-                ("Symbols", 0x2000),
-                ("Arrows", 0x2190),
-                ("Math Operators", 0x2200),
-                ("Box Drawing", 0x2500),
-                ("Block Elements", 0x2580),
-                ("Geometric Shapes", 0x25A0),
-                ("Misc Symbols", 0x2600),
-                ("Dingbats", 0x2700),
+                ("Basic Latin", 0x0020, 0x007F),
+                ("Latin-1", 0x0080, 0x00FF),
+                ("Latin Extended-A", 0x0100, 0x017F),
+                ("Latin Extended-B", 0x0180, 0x024F),
+                ("Greek", 0x0370, 0x03FF),
+                ("Cyrillic", 0x0400, 0x04FF),
+                ("Hebrew", 0x0590, 0x05FF),
+                ("Arabic", 0x0600, 0x06FF),
+                ("Symbols", 0x2000, 0x206F),
+                ("Arrows", 0x2190, 0x21FF),
+                ("Math Operators", 0x2200, 0x22FF),
+                ("Box Drawing", 0x2500, 0x257F),
+                ("Block Elements", 0x2580, 0x259F),
+                ("Geometric Shapes", 0x25A0, 0x25FF),
+                ("Misc Symbols", 0x2600, 0x26FF),
+                ("Dingbats", 0x2700, 0x27BF),
             ];
 
-            for (name, codepoint) in blocks {
-                if ui.small_button(name).clicked() {
-                    self.start_codepoint = codepoint;
+            for (name, start, end) in blocks {
+                let is_current = self.start_codepoint >= start && self.start_codepoint <= end;
+                if ui.add(egui::Button::new(
+                    egui::RichText::new(name)
+                        .small()
+                        .color(if is_current { egui::Color32::BLACK } else { egui::Color32::WHITE })
+                ).fill(if is_current { egui::Color32::GOLD } else { egui::Color32::TRANSPARENT }))
+                .clicked() {
+                    self.start_codepoint = start;
                 }
             }
         });
