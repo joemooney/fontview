@@ -402,6 +402,9 @@ impl FontViewerApp {
                         if ui.button("🗑").on_hover_text("Remove from favorites").clicked() {
                             to_remove = Some(codepoint);
                         }
+                        if ui.button("📋").on_hover_text("Copy to clipboard").clicked() {
+                            ui.ctx().copy_text(ch.to_string());
+                        }
                     });
                 });
 
