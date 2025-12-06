@@ -1,0 +1,9 @@
+[package]
+name = "fontview"
+version = "0.1.0"
+edition = "2021"
+description = "A simple font character viewer using egui"
+
+[dependencies]
+eframe = "0.29"
+egui = "0.29"
